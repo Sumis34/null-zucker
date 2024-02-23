@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { Bolt, Check } from "lucide-react";
 import CountUp from "react-countup";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 
 const URL_BASE = "https://world.openfoodfacts.net/api/v3/";
@@ -103,7 +102,6 @@ export default function Home() {
 
   return (
     <main className="flex h-[calc(100dvh)] w-screen flex-col items-center justify-between p-5 relative bg-background">
-      <Toaster />
       <h1 className="font-bold">#null-zucker</h1>
       {!product ? (
         <div>
