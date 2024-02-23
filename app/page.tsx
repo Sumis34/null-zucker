@@ -2,7 +2,7 @@
 
 import useZxing from "@/lib/hooks/useZxing";
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "@uidotdev/usehooks";
+// import { useLocalStorage } from "@uidotdev/usehooks";
 import {
   Drawer,
   DrawerClose,
@@ -30,10 +30,11 @@ interface Product {
 
 export default function Home() {
   const [result, setResult] = useState("");
-  const [device, setDevice] = useLocalStorage<undefined | string>(
-    "zxing-device",
-    undefined
-  );
+  // const [device, setDevice] = useState<undefined | string>(
+  //   "zxing-device",
+  //   undefined
+  // );
+  const [device, setDevice] = useState<undefined | string>(undefined);
   const [product, setProduct] = useState<Product | null>(null);
 
   const { ref, devices } = useZxing({
