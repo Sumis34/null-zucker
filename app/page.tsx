@@ -165,6 +165,7 @@ export default function Home() {
       <div>
         {product && (
           <Button
+          className="mb-5"
             onClick={() => {
               reset();
             }}
