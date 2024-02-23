@@ -1,7 +1,6 @@
 "use client";
 
 import useZxing from "@/lib/hooks/useZxing";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import {
@@ -15,7 +14,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Bolt, Camera, MinusIcon, Undo2 } from "lucide-react";
+import { Bolt } from "lucide-react";
 import CountUp from "react-countup";
 import { cn } from "@/lib/utils";
 
