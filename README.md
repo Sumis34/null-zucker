@@ -1,3 +1,3 @@
 # #null-zucker
 
-Eine kleine Web-App die dir dabei hilft, Produkte zu finden, die keine Zuckerzusätze enthalten.
+A small web app that helps you to find products that do not contain added sugar.
