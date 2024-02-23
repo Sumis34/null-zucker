@@ -14,9 +14,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Bolt } from "lucide-react";
+import { Bolt, Check } from "lucide-react";
 import CountUp from "react-countup";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const URL_BASE = "https://world.openfoodfacts.net/api/v3/";
 
@@ -59,7 +61,11 @@ export default function Home() {
 
     const data = await res.json();
 
-    console.log(data);
+    if (data.errors.length > 0) {
+      toast.error("Produkt nicht gefunden!");
+      setResult("");
+      return;
+    }
 
     setProduct({
       ingredientsText: data.product.ingredients_text_de,
@@ -90,23 +96,39 @@ export default function Home() {
   };
 
   const WARNING = {
-    noSugar: "Enthält keinen zusätzlichen Zucker",
+    noSugar: "Enthält keinen Zucker",
     noExtraSugar: "Enthält keinen zusätzlichen Zucker",
     sugar: "Enthält nicht natürlichen Zucker!",
   };
 
   return (
     <main className="flex h-[calc(100dvh)] w-screen flex-col items-center justify-between p-5 relative bg-background">
+      <Toaster />
       <h1 className="font-bold">#null-zucker</h1>
       {!product ? (
         <div>
-          <div className="aspect-square w-full rounded-2xl overflow-hidden">
+          <div className="aspect-square w-full rounded-2xl overflow-hidden relative bg-neutral-200">
             <video ref={ref} />
-            {devices.length === 0 && (
-              <p>
-                Keine Kamera Gefunden, verwenden sie ein Gerät mit integrierter
-                Kamera
-              </p>
+            {devices.length === 0 ? (
+              <div className="fade-in-100 flex justify-center items-center text-center absolute inset-0">
+                <div className="flex gap-3 flex-col items-center">
+                  <p className="max-w-md">
+                    Keine Kamera Gefunden, verwenden sie ein Gerät mit
+                    integrierter Kamera
+                  </p>
+                  <div>
+                    {devices.length === 0 && (
+                      <Button onClick={() => fetchProduct("3017620422003")}>
+                        Test Produkt
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="absolute inset-0 py-28 px-10">
+                <div className="border-white border-2 h-full w-full rounded-xl animate-pulse"></div>
+              </div>
             )}
           </div>
           <p className="text-sm text-muted-foreground p-2">
@@ -115,7 +137,7 @@ export default function Home() {
           </p>
         </div>
       ) : (
-        <div>
+        <div className="flex flex-col items-center">
           {/* <img
             src={product.image}
             className="aspect-square w-full rounded-2xl m-10"
@@ -132,7 +154,7 @@ export default function Home() {
 
           <p
             className={cn(
-              "p-3 rounded-lg text-sm mt-2",
+              "p-3 rounded-lg text-sm mt-4 w-fit",
               product.warnLevel === "noSugar" && "bg-green-200",
               product.warnLevel === "noExtraSugar" && "bg-yellow-200",
               product.warnLevel === "sugar" && "bg-red-200 text-red-900"
@@ -166,11 +188,6 @@ export default function Home() {
               <DrawerDescription>Wähle eine Kamera</DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
-              {devices.length === 0 && (
-                <Button onClick={() => fetchProduct("3017620422003")}>
-                  Fetch
-                </Button>
-              )}
               {devices.map((device, i) => {
                 return (
                   <Button
@@ -181,6 +198,7 @@ export default function Home() {
                   </Button>
                 );
               })}
+              <p className="text-sm p-4">Made with ❤️ by Noé Krebs</p>
               <DrawerClose asChild>
                 <Button size={"lg"} variant="outline">
                   Cancel
